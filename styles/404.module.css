@@ -1,0 +1,34 @@
+.error {
+  max-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* reset default margin of layout page */
+  margin-top: -5vh;
+}
+
+.error > p,
+.error > h3 {
+  width: 100%;
+}
+
+.error_message {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.error_desc {
+  color: #808080;
+  font-weight: 300;
+}
+
+.error_desc > a {
+  text-decoration: underline;
+  color: #292c30;
+}
+.error_desc > a:hover {
+  opacity: 0.75;
+}
