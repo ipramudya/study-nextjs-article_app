@@ -1,0 +1,37 @@
+.nav {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding-right: 70px;
+  padding-left: 1.5rem;
+}
+
+.nav_inner {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: inherit;
+}
+
+.nav_logo {
+  margin-bottom: 2rem;
+}
+
+.logo {
+  font-family: BasementGrotesque, sans-serif;
+}
+
+.nav_links {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav_item {
+  margin-bottom: 8px;
+}
+
+.nav_item:hover,
+.logo:hover {
+  opacity: 0.75;
+  transition: opacity 0.3s ease;
+}

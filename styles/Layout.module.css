@@ -1,0 +1,10 @@
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  width: 900px;
+  padding: 5vh 0;
+  background-color: antiquewhite;
+}
