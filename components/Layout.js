@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import Nav from "./Nav";
-import styles from "../styles/Layout.module.css";
+import styles from "@/styles/Layout.module.css";
 
 export default function Layout({ children, title, description }) {
   return (

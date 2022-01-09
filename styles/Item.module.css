@@ -1,0 +1,51 @@
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+.item_image {
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
+
+.item_desc_box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3rem;
+}
+
+.item_desc_box:hover .item_btn {
+  opacity: 1;
+}
+
+.desc_box_title {
+  font-size: 1.1rem;
+  padding: 9px 0;
+}
+
+.desc_box_subtitle {
+  color: #808080;
+}
+
+.item_btn {
+  position: absolute;
+  top: 50%;
+  right: 1px;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.item_btn > svg {
+  margin-left: 5px;
+  width: 22px;
+  height: 22px;
+}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "../styles/Nav.module.css";
+import styles from "@/styles/Nav.module.css";
 
 export default function Nav() {
   return (
@@ -7,7 +7,7 @@ export default function Nav() {
       <div className={styles.nav_inner}>
         <div className={styles.nav_logo}>
           <Link href="/">
-            <a className={styles.logo}>word by word</a>
+            <a className={styles.logo}>rémark</a>
           </Link>
         </div>
         <ul className={styles.nav_links}>
