@@ -1,5 +1,6 @@
 .home {
-  padding-top: 2rem;
+  /* padding-top: 2rem; */
+  transition: all 0.3s ease;
 }
 
 .home_grid {

@@ -2,7 +2,7 @@ import styles from "@/styles/Banner.module.css";
 
 export default function Banner() {
   return (
-    <div>
+    <div className={styles.banner}>
       <h1 className={styles.title}>
         Sharing <br />a simpler thoughts <br /> with less
       </h1>

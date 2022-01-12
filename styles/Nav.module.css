@@ -32,6 +32,10 @@
   font-weight: 600;
 }
 
+.nav_item > * {
+  cursor: pointer;
+}
+
 .nav_item:hover,
 .logo:hover {
   opacity: 0.75;

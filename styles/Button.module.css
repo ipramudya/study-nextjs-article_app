@@ -1,0 +1,15 @@
+.button {
+  background: transparent;
+  border: none;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.button:hover {
+  opacity: 0.75;
+}

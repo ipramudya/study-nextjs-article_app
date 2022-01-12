@@ -2,6 +2,7 @@ import Link from "next/link";
 import axios from "axios";
 import Layout from "@/components/Layout";
 import Banner from "@/components/Banner";
+import Search from "@/components/Search";
 import GridItem from "@/components/Item";
 import styles from "@/styles/Home.module.css";
 import { API_URL } from "@/config/urls";
@@ -10,6 +11,7 @@ export default function Home({ articles }) {
   return (
     <Layout>
       <Banner />
+      <Search />
       <div className={styles.home}>
         <div className={styles.home_grid}>
           {articles.map((article) => (

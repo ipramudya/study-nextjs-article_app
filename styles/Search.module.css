@@ -1,0 +1,33 @@
+.search {
+  width: 100%;
+  margin: 18px 0;
+  border-bottom: 1px solid #292c30;
+  position: relative;
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.input {
+  width: 100%;
+  padding: 1rem 0;
+  font-size: 16px;
+  border: none;
+  color: #292c30;
+  background: transparent;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.search_buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
