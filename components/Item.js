@@ -11,8 +11,11 @@ export default function Item({ imageSource, title, description }) {
     <div className={styles.item}>
       <div className={styles.item_image}>
         <Image
-          loader={imageLoader}
-          src={imageSource ? imageSource : "/assets/300x300.svg"}
+          src={
+            imageSource
+              ? imageSource.attributes.formats.medium.url
+              : "https://res.cloudinary.com/pramudya-dev/image/upload/v1641964051/medium_default_image_aa09a36476.jpg"
+          }
           alt="image"
           priority
           layout="fill"

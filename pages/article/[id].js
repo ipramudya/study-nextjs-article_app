@@ -10,25 +10,28 @@ function imageLoader({ src, width, quality }) {
 }
 
 export default function Article({ article }) {
-  console.log(article.content.split("\n"));
   return (
     <Layout>
       <div className={styles.article_heading}>
         <div className={styles.heading_group}>
-          <span>posted at &ndash; {moment(article.publishedAt).format("LL")}</span>
+          <span>posted at &ndash; {moment(article.attributes.publishedAt).format("LL")}</span>
           <span className={styles.heading_link}>
-            <a href={article.url} target="_blank" rel="noreferrer">
-              words by {article.source.name}
+            <a href={article.attributes.url} target="_blank" rel="noreferrer">
+              words by {article.attributes.author}
             </a>
           </span>
         </div>
-        <h1 className={styles.heading_title}>{article.title}</h1>
-        <p className={styles.heading_desc}>{article.description}</p>
+        <h1 className={styles.heading_title}>{article.attributes.title}</h1>
+        <p className={styles.heading_desc}>{article.attributes.description}</p>
       </div>
       <div className={styles.article_image}>
         <Image
           loader={imageLoader}
-          src={article.urlToImage ? article.urlToImage : "/assets/300x300.svg"}
+          src={
+            article.attributes.image.data !== null
+              ? article.attributes.image.data.attributes.formats.large.url
+              : "https://res.cloudinary.com/pramudya-dev/image/upload/v1641964049/large_default_image_aa09a36476.jpg"
+          }
           alt="image"
           priority
           layout="fill"
@@ -37,7 +40,7 @@ export default function Article({ article }) {
         />
       </div>
       <div className={styles.article_content}>
-        {article.content.split("\n").map((p) => (
+        {article.attributes.content.split("\n").map((p) => (
           <p key={p} className={styles.content_paragraph}>
             {p}
           </p>
@@ -48,9 +51,9 @@ export default function Article({ article }) {
 }
 
 export async function getStaticProps({ params: { id } }) {
-  const { data: article } = await axios.get(`${API_URL}/api/articles/${id}`);
+  const { data: article } = await axios.get(`${API_URL}/api/articles/${id}?populate=image`);
   return {
-    props: { article: article[0] },
+    props: { article: article.data },
     revalidate: 1,
   };
 }
@@ -58,9 +61,9 @@ export async function getStaticProps({ params: { id } }) {
 export async function getStaticPaths() {
   const { data: articles } = await axios.get(`${API_URL}/api/articles`);
 
-  const paths = articles.map((article) => ({
-    params: { id: article.id },
+  const paths = articles.data.map((article) => ({
+    params: { id: article.id.toString() },
   }));
 
-  return { paths, fallback: true };
+  return { paths, fallback: false };
 }

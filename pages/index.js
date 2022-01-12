@@ -15,7 +15,11 @@ export default function Home({ articles }) {
           {articles.map((article) => (
             <Link href={`/article/${article.id}`} key={article.id} passHref>
               <div className={styles.grid_item}>
-                <GridItem imageSource={article.urlToImage} title={article.title} description={article.description} />
+                <GridItem
+                  imageSource={article.attributes.image.data}
+                  title={article.attributes.title}
+                  description={article.attributes.description}
+                />
               </div>
             </Link>
           ))}
@@ -26,10 +30,10 @@ export default function Home({ articles }) {
 }
 
 export async function getStaticProps() {
-  const { data: articles } = await axios.get(`${API_URL}/api/articles`);
+  const { data: articles } = await axios.get(`${API_URL}/api/articles?populate=image&sort[0]=publishedAt:ASC`);
 
   return {
-    props: { articles },
+    props: { articles: articles.data },
     revalidate: 1,
   };
 }
