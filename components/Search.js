@@ -11,7 +11,7 @@ export default function Search() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setQuery("");
-    router.push(`/articles/search?query=${query}`);
+    router.push(`/article/search?query=${query}`);
   };
 
   const handleInputChange = (event) => {
