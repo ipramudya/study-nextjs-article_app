@@ -10,6 +10,24 @@
   font-size: 18px;
 }
 
-.button:hover {
+.button_fill {
+  background: #292c30;
+  border: none;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  min-height: 44px;
+  padding: 10px;
+  margin-top: 1rem;
+}
+.button_fill > svg {
+  padding-left: 5px;
+}
+
+.button:hover,
+.button_fill:hover {
   opacity: 0.75;
 }

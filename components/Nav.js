@@ -12,6 +12,9 @@ export default function Nav() {
         </div>
         <ul className={styles.nav_links}>
           <li className={styles.nav_item}>
+            <Link href="/article/add">add article</Link>
+          </li>
+          <li className={styles.nav_item}>
             <Link href="/items">articles</Link>
           </li>
           <li className={styles.nav_item}>
