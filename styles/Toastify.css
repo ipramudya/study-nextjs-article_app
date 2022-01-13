@@ -2,5 +2,5 @@
   --toastify-color-dark: #292c30;
 }
 .Toastify__close-button {
-  align-self: unset;
+  align-self: auto;
 }

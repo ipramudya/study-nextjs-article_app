@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import axios from "axios";
 import { MdDone } from "react-icons/md";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,6 +12,7 @@ import Button from "@/components/Button";
 import CustomInput from "@/components/Input";
 import styles from "@/styles/Form.module.css";
 import articleStyles from "@/styles/Article.module.css";
+import moment from "moment";
 
 const initialState = {
   title: "",
@@ -26,14 +28,33 @@ export default function AddPage() {
   const [values, setValues] = useState(initialState);
   const router = useRouter();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Validate
     const isFieldsEmpty = Object.values(values).some((element) => element === "");
-    if (isFieldsEmpty) toast.error("Please fill in all fields", { theme: "dark" });
+    if (isFieldsEmpty) {
+      toast.error("Please fill in all fields", { theme: "dark" });
+      return;
+    }
 
-    setValues(initialState);
+    const { date, time, ...others } = values;
+    const publishedTime = moment(`${date} ${time}`).format();
+
+    const { status, data } = await axios.post(`${API_URL}/api/articles`, {
+      data: {
+        ...others,
+        publishedTime,
+      },
+    });
+    // setValues(initialState);
+
+    if (status !== 200) toast.error("Error, please try again", { theme: "dark" });
+
+    toast.success("Article Successfully added", {
+      theme: "dark",
+      onClose: () => router.push(`/article/${data.data.id}`),
+    });
   };
 
   const handleInputChange = (event) => {
@@ -48,7 +69,7 @@ export default function AddPage() {
   return (
     <Layout>
       <h1 className={articleStyles.heading_title}>Add your own article {router.query.query}</h1>
-      <ToastContainer position="bottom-center" hideProgressBar={true} autoClose={4000} transition={Slide} />
+      <ToastContainer position="bottom-center" hideProgressBar={true} autoClose={false} transition={Slide} />
       <div className={styles.form}>
         <div className={styles.form_divider_3}>
           <CustomInput
@@ -76,6 +97,7 @@ export default function AddPage() {
         <div className={styles.form_divider_2}>
           <CustomInput inputType="date" type="input" label="Date" value={values.date} handleValue={handleInputChange} />
           <CustomInput
+            inputType="time"
             type="input"
             label="Time"
             value={values.time}
