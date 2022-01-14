@@ -1,17 +1,48 @@
 import axios from "axios";
 import moment from "moment";
-import Layout from "@/components/Layout";
-import styles from "@/styles/Article.module.css";
-import { API_URL } from "@/config/urls";
 import Image from "next/image";
+import { ToastContainer, Slide, toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { AiOutlineEdit, AiOutlineClose } from "react-icons/ai";
 
-function imageLoader({ src, width, quality }) {
-  return `${src}?w=${width}&q=${quality}`;
-}
+import Layout from "@/components/Layout";
+import { API_URL } from "@/config/urls";
+import styles from "@/styles/Article.module.css";
 
 export default function Article({ article }) {
+  const router = useRouter();
+
+  const handleEdit = () => {
+    router.push(`/edit/${article.id}`);
+  };
+
+  const handleRemove = async () => {
+    const {
+      status,
+      data: { data },
+    } = await axios.delete(`${API_URL}/api/articles/${article.id}`);
+
+    if (status !== 200) {
+      toast.error("Error, please try again", { theme: "dark" });
+    }
+
+    toast.success("Article successfully removed", {
+      theme: "dark",
+      onClose: () => router.push("/"),
+    });
+  };
+
   return (
     <Layout>
+      <ToastContainer position="bottom-center" hideProgressBar={true} autoClose={3000} transition={Slide} />
+      <div className={styles.handler_group}>
+        <button className={styles.handler_button} onClick={handleEdit}>
+          <AiOutlineEdit /> edit article
+        </button>
+        <button className={styles.handler_button} onClick={handleRemove}>
+          <AiOutlineClose /> delete article
+        </button>
+      </div>
       <div className={styles.article_heading}>
         <div className={styles.heading_group}>
           <span>posted at &ndash; {moment(article.attributes.publishedAt).format("LL")}</span>
@@ -26,7 +57,6 @@ export default function Article({ article }) {
       </div>
       <div className={styles.article_image}>
         <Image
-          loader={imageLoader}
           src={
             article.attributes.image.data !== null
               ? article.attributes.image.data.attributes.formats.large.url

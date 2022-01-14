@@ -9,7 +9,6 @@ import articleStyles from "@/styles/Article.module.css";
 import homeStyles from "@/styles/Home.module.css";
 
 export default function SearchPage({ articles }) {
-  console.log(articles);
   const router = useRouter();
   return (
     <Layout>

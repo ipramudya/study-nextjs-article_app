@@ -57,3 +57,39 @@
   margin-bottom: 1rem;
   text-align: justify;
 }
+
+.handler_group {
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #292c30;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.handler_button {
+  background: none;
+  border: none;
+  font-family: Aileron, sans-serif;
+  font-weight: 300;
+  color: #292c30;
+  margin-left: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.handler_button > svg {
+  font-size: 1rem;
+  margin-right: 5px;
+}
+
+.handler_button:first-child > svg {
+  color: #004b70;
+}
+.handler_button:last-child > svg {
+  color: #570000;
+}
+
+.handler_button:hover {
+  opacity: 0.75;
+}
