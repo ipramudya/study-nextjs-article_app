@@ -41,6 +41,12 @@
   outline: none;
 }
 
+.form_image {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .form_desc {
   min-height: 7rem;
   resize: none;
@@ -61,4 +67,23 @@
 }
 .form_input::-webkit-calendar-picker-indicator:hover {
   opacity: 0.75;
+}
+
+.input_btn {
+  background: none;
+  border: none;
+  font-family: Aileron, sans-serif;
+  font-weight: 400;
+  color: #292c30;
+  margin-left: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.input_btn:hover {
+  opacity: 0.75;
+}
+.input_btn > svg {
+  font-size: 1.1rem;
+  margin-right: 5px;
 }

@@ -6,11 +6,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Layout from "@/components/Layout";
 import Form from "@/components/Form";
+import Modal from "@/components/Modal";
 import articleStyles from "@/styles/Article.module.css";
 import formStyles from "@/styles/Form.module.css";
 import axios from "axios";
 import { API_URL } from "@/config/urls";
 import moment from "moment";
+import Button from "@/components/Button";
+import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 
 export default function EditPage({ article }) {
   const { title, author, url, description, content, publishedTime } = article.attributes;
@@ -26,10 +29,9 @@ export default function EditPage({ article }) {
     description,
     content,
   });
-  const [state, setstate] = useState(image ? image.attributes.formats.small.url : "");
+  const [isImageExist, setIsImageExist] = useState(image ? image.attributes.formats.medium.url : "");
+  const [isModalShown, setIsModalShown] = useState(false);
   const router = useRouter();
-
-  console.log(article);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -75,8 +77,33 @@ export default function EditPage({ article }) {
       <Layout>
         <h1 className={articleStyles.heading_title}>Edit the article</h1>
         <ToastContainer position="bottom-center" hideProgressBar={true} autoClose={3000} transition={Slide} />
-        <span className={formStyles.input_label}>Image</span>
+        <div className={formStyles.form_image}>
+          <span className={formStyles.input_label}>Image</span>
+          <button className={formStyles.input_btn} onClick={() => setIsModalShown(true)}>
+            <MdOutlineAddPhotoAlternate />
+            change image
+          </button>
+        </div>
+        <div style={{ padding: "1rem 0" }}>
+          <div className={articleStyles.article_image}>
+            <Image
+              src={
+                isImageExist
+                  ? isImageExist
+                  : "https://res.cloudinary.com/pramudya-dev/image/upload/v1641964049/large_default_image_aa09a36476.jpg"
+              }
+              alt="image"
+              priority
+              layout="fill"
+              quality={100}
+              objectFit="cover"
+            />
+          </div>
+        </div>
         <Form buttonMessage="Edit" values={values} handleInputChange={handleInputChange} handleSubmit={handleSubmit} />
+        <Modal show={isModalShown} onClose={() => setIsModalShown(false)}>
+          some content
+        </Modal>
       </Layout>
     </>
   );
