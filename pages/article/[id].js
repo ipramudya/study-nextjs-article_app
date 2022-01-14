@@ -1,9 +1,10 @@
 import axios from "axios";
 import moment from "moment";
 import Image from "next/image";
-import { ToastContainer, Slide, toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { AiOutlineEdit, AiOutlineClose } from "react-icons/ai";
+import { ToastContainer, Slide, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Layout from "@/components/Layout";
 import { API_URL } from "@/config/urls";
