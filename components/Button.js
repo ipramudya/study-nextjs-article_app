@@ -1,9 +1,17 @@
 import styles from "@/styles/Button.module.css";
 
-export default function Button({ event, buttonType = "button", children, fill }) {
+export default function Button({ event, buttonType = "button", children, fill, onPending = false }) {
   return (
-    <button className={!fill ? styles.button : styles.button_fill} onClick={event} type={buttonType}>
-      {children}
-    </button>
+    <>
+      {onPending ? (
+        <button style={{ cursor: "not-allowed" }} className={styles.button_fill} disabled>
+          {children}
+        </button>
+      ) : (
+        <button className={!fill ? styles.button : styles.button_fill} onClick={event} type={buttonType}>
+          {children}
+        </button>
+      )}
+    </>
   );
 }
