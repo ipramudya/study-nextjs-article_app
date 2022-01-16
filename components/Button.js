@@ -1,6 +1,6 @@
 import styles from "@/styles/Button.module.css";
 
-export default function Button({ event, buttonType = "button", children, fill, onPending = false }) {
+export default function Button({ event, buttonType = "button", children, fill, onPending = false, style }) {
   return (
     <>
       {onPending ? (
@@ -8,7 +8,7 @@ export default function Button({ event, buttonType = "button", children, fill, o
           {children}
         </button>
       ) : (
-        <button className={!fill ? styles.button : styles.button_fill} onClick={event} type={buttonType}>
+        <button className={!fill ? styles.button : styles.button_fill} onClick={event} type={buttonType} style={style}>
           {children}
         </button>
       )}

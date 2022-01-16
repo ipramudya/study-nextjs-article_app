@@ -21,7 +21,7 @@ export default function Nav() {
             <Link href="/about">about</Link>
           </li>
           <li className={styles.nav_item}>
-            <Link href="/login">login</Link>
+            <Link href="/account/login">login</Link>
           </li>
         </ul>
       </div>

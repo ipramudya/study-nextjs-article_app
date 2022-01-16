@@ -1,8 +1,8 @@
 import styles from "@/styles/Form.module.css";
 
-export default function Input({ type, label, ph, value, handleValue, inputType = "text" }) {
+export default function Input({ type, label = "", ph, value, handleValue, inputType = "text", style }) {
   return (
-    <div className={styles.form_input_wrapper}>
+    <div className={styles.form_input_wrapper} style={style}>
       <label htmlFor={label.toLowerCase()} className={styles.input_label}>
         {label}
       </label>
