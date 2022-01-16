@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { useAuth } from "@/context/AuthContext";
 import Button from "@/components/Button";
 import CustomInput from "@/components/Input";
 import Layout from "@/components/Layout";
@@ -13,6 +14,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+  const { register } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -21,8 +23,7 @@ export default function LoginPage() {
       toast.error("Password doesn't match", { theme: "dark" });
       return;
     }
-
-    console.log("submit", username, password);
+    register({ username, email, password });
   };
 
   return (

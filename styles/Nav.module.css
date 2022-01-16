@@ -35,9 +35,18 @@
 .nav_item > * {
   cursor: pointer;
 }
-
 .nav_item:hover,
 .logo:hover {
   opacity: 0.75;
   transition: opacity 0.3s ease;
+}
+
+.nav_btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #292c30;
+  font-family: Aileron, sans-serif;
 }

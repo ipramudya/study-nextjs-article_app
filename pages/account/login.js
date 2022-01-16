@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { useAuth } from "@/context/AuthContext";
 import Button from "@/components/Button";
 import CustomInput from "@/components/Input";
 import Layout from "@/components/Layout";
@@ -11,10 +12,11 @@ import styles from "@/styles/Auth.module.css";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, error } = useAuth();
 
   const handleSubmit = (event) => {
-    console.log("submit", username, password);
     event.preventDefault();
+    login({ email, password });
   };
 
   return (
