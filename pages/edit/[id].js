@@ -110,7 +110,7 @@ export default function EditPage({ article }) {
   );
 }
 
-export async function getServerSideProps({ params: { id } }) {
+export async function getServerSideProps({ params: { id } }, req) {
   const {
     data: { data: article },
   } = await axios.get(`${API_URL}/api/articles/${id}?populate=image`);

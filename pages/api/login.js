@@ -1,5 +1,6 @@
-import { API_URL } from "@/config/urls";
 import axios from "axios";
+import cookie from "cookie";
+import { API_URL } from "@/config/urls";
 
 export default async function (req, res) {
   if (req.method === "POST") {
@@ -15,6 +16,16 @@ export default async function (req, res) {
       //  strapi response handler
       if (status === 200) {
         //  set cookie
+        res.setHeader(
+          "Set-Cookie",
+          cookie.serialize("token", data.jwt, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== "development",
+            maxAge: 60 * 60 * 24, // a day
+            sameSite: "strict",
+            path: "/", // enable cookie for the entire app
+          })
+        );
         res.status(200).json({ user: data.user });
       } else {
         res.status(data.error.status).json({ message: data.error.message });

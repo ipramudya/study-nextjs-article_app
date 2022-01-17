@@ -1,6 +1,7 @@
-import { createContext, useState, useContext } from "react";
-import { NEXT_URL } from "@/config/urls";
+import { createContext, useState, useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
+import { NEXT_URL } from "@/config/urls";
 
 const AuthContext = createContext(null);
 
@@ -8,8 +9,13 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  // const [user, setUser] = useState({ x: "" });
   const [error, setError] = useState(null);
+  const router = useRouter();
+
+  // force run whenever app has cookie
+  useEffect(() => {
+    checkUserLoggedIn();
+  }, []);
 
   //    Register user
   const register = async (user) => {
@@ -27,6 +33,7 @@ export const AuthProvider = ({ children }) => {
       //  response handler
       if (status === 200) {
         setUser(data.user);
+        router.push("/");
       } else {
         setError(data.message);
         setError(null);
@@ -45,7 +52,12 @@ export const AuthProvider = ({ children }) => {
 
   //    Check if user is logged in
   const checkUserLoggedIn = async () => {
-    console.log("check");
+    const { data, statusText } = await axios.get(`${NEXT_URL}/api/user`);
+    if (statusText === "OK") {
+      setUser(data.user);
+    } else {
+      setUser(null);
+    }
   };
 
   return (
