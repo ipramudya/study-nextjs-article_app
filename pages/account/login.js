@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +14,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const { login, error } = useAuth();
 
+  useEffect(() => {
+    error && toast.error(error, { theme: "dark" });
+  }, [error]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     login({ email, password });
@@ -21,6 +25,7 @@ export default function LoginPage() {
 
   return (
     <Layout>
+      <ToastContainer position="bottom-center" hideProgressBar={true} autoClose={3000} transition={Slide} />
       <div className={styles.auth}>
         <div className={styles.auth_box}>
           <h1 className={styles.auth_title}>Log in to your account</h1>
@@ -33,6 +38,7 @@ export default function LoginPage() {
               ph="Email (e.g. rémark@example.com)"
               inputType="email"
               style={{ margin: "2rem 0 1.5rem 0" }}
+              required
             />
             <CustomInput
               //   label="Password"
@@ -42,6 +48,7 @@ export default function LoginPage() {
               ph="Password"
               inputType="password"
               style={{ margin: "1.5rem 0" }}
+              required
             />
             <Button fill buttonType="submit" style={{ width: "100%" }}>
               Login

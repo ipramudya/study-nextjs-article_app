@@ -1,6 +1,15 @@
 import styles from "@/styles/Form.module.css";
 
-export default function Input({ type, label = "", ph, value, handleValue, inputType = "text", style }) {
+export default function Input({
+  type,
+  label = "",
+  ph,
+  value,
+  handleValue,
+  inputType = "text",
+  style,
+  required = false,
+}) {
   return (
     <div className={styles.form_input_wrapper} style={style}>
       <label htmlFor={label.toLowerCase()} className={styles.input_label}>
@@ -24,6 +33,7 @@ export default function Input({ type, label = "", ph, value, handleValue, inputT
           onChange={handleValue}
           placeholder={ph}
           className={styles.form_input}
+          required={required}
         />
       )}
     </div>
