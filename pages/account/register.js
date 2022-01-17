@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,7 +14,14 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const { register } = useAuth();
+  const { register, error, resetError } = useAuth();
+
+  useEffect(() => {
+    error && toast.error(error === "2 errors occurred" ? "All fields are required" : error, { theme: "dark" });
+
+    // fixing  infinite error popup
+    resetError();
+  }, [error]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -34,7 +41,7 @@ export default function LoginPage() {
           <h1 className={styles.auth_title}>Create an account</h1>
           <form onSubmit={handleSubmit}>
             <CustomInput
-              // label="Username"
+              //    username input
               type="input"
               handleValue={(event) => setUsername(event.target.value)}
               value={username}
@@ -42,7 +49,7 @@ export default function LoginPage() {
               style={{ margin: "2rem 0 1.5rem 0" }}
             />
             <CustomInput
-              // label="Email"
+              //    email input
               type="input"
               handleValue={(event) => setEmail(event.target.value)}
               value={email}
@@ -52,7 +59,7 @@ export default function LoginPage() {
             />
             <div className={styles.auth_divider_2}>
               <CustomInput
-                // label="Password"
+                //    password input
                 type="input"
                 handleValue={(event) => setPassword(event.target.value)}
                 value={password}
@@ -60,7 +67,7 @@ export default function LoginPage() {
                 inputType="password"
               />
               <CustomInput
-                // label="Confirm"
+                //    set password input
                 type="input"
                 handleValue={(event) => setConfirmPass(event.target.value)}
                 value={confirmPass}

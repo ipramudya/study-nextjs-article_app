@@ -17,9 +17,28 @@ export const AuthProvider = ({ children }) => {
     checkUserLoggedIn();
   }, []);
 
+  const resetError = () => {
+    setError(null);
+  };
+
   //    Register user
   const register = async (user) => {
-    console.log(user);
+    try {
+      //  fetch next.js local api
+      const { data, status } = await axios.post(`${NEXT_URL}/api/register`, user);
+      //  response handler
+      if (status === 200) {
+        setUser(data.user);
+        router.push("/");
+      } else {
+        setError(data.message);
+        setError(null);
+        return;
+      }
+    } catch (error) {
+      const { data } = error.response;
+      setError(data.message);
+    }
   };
 
   //    Login user
@@ -69,7 +88,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, error, register, login, logout, checkUserLoggedIn }}>
+    <AuthContext.Provider value={{ user, error, register, login, logout, checkUserLoggedIn, resetError }}>
       {children}
     </AuthContext.Provider>
   );
