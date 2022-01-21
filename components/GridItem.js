@@ -2,10 +2,6 @@ import Image from "next/image";
 import styles from "@/styles/Item.module.css";
 import { CgArrowLongRight } from "react-icons/cg";
 
-function imageLoader({ src, width, quality }) {
-  return `${src}?w=${width}&q=${quality}`;
-}
-
 export default function Item({ imageSource, title, description }) {
   return (
     <div className={styles.item}>

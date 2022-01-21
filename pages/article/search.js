@@ -3,7 +3,7 @@ import Link from "next/link";
 import qs from "qs";
 import axios from "axios";
 import Layout from "@/components/Layout";
-import GridItem from "@/components/Item";
+import GridItem from "@/components/GridItem";
 import { API_URL } from "@/config/urls";
 import articleStyles from "@/styles/Article.module.css";
 import homeStyles from "@/styles/Home.module.css";

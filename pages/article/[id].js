@@ -1,53 +1,15 @@
 import axios from "axios";
 import moment from "moment";
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { AiOutlineEdit, AiOutlineClose } from "react-icons/ai";
-import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useAuth } from "@/context/AuthContext";
 import Layout from "@/components/Layout";
 import { API_URL } from "@/config/urls";
 import styles from "@/styles/Article.module.css";
 
 export default function Article({ article }) {
-  const router = useRouter();
-  const { user } = useAuth();
-
-  const handleEdit = () => {
-    router.push(`/edit/${article.id}`);
-  };
-
-  const handleRemove = async () => {
-    const { status } = await axios.delete(`${API_URL}/api/articles/${article.id}`);
-
-    if (status !== 200) {
-      toast.error("Error, please try again", { theme: "dark" });
-    }
-
-    toast.success("Article successfully removed", {
-      theme: "dark",
-      onClose: () => router.push("/"),
-    });
-  };
-
   return (
     <Layout>
-      <ToastContainer position="bottom-center" hideProgressBar={true} autoClose={3000} transition={Slide} />
-      {
-        // if user exist, then show the article handler
-        user && (
-          <div className={styles.handler_group}>
-            <button className={styles.handler_button} onClick={handleEdit}>
-              <AiOutlineEdit /> edit article
-            </button>
-            <button className={styles.handler_button} onClick={handleRemove}>
-              <AiOutlineClose /> delete article
-            </button>
-          </div>
-        )
-      }
       <div className={styles.article_heading}>
         <div className={styles.heading_group}>
           <span>posted at &ndash; {moment(article.attributes.publishedAt).format("LL")}</span>

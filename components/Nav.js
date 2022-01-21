@@ -15,16 +15,16 @@ export default function Nav() {
         </div>
         <ul className={styles.nav_links}>
           <li className={styles.nav_item}>
-            <Link href="/">articles</Link>
+            <Link href="/">feeds</Link>
           </li>
           {user ? (
             //  If logged in
             <>
               <li className={styles.nav_item}>
-                <Link href="/article/add">add article</Link>
+                <Link href="/article/add">post</Link>
               </li>
               <li className={styles.nav_item}>
-                <Link href="/account/dashboard">account</Link>
+                <Link href="/account/dashboard">mine</Link>
               </li>
               <li className={styles.nav_item}>
                 <button

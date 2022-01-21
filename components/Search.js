@@ -34,7 +34,7 @@ export default function Search() {
           onChange={handleInputChange}
           placeholder="search for articles"
         />
-        <div className={styles.search_buttons}>
+        <div className={styles.buttons}>
           <Button event={handleSubmit} buttonType="submit">
             <CgSearch />
           </Button>

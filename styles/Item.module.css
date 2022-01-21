@@ -1,3 +1,4 @@
+/* GRID ITEM */
 .item {
   display: flex;
   flex-direction: column;
@@ -12,7 +13,8 @@
   opacity: 0.75;
 }
 
-.item:hover .item_image img {
+.item:hover .item_image img,
+.list:hover .list_image img {
   transform: scale(1.05);
   filter: unset;
 }
@@ -23,7 +25,8 @@
   height: 400px;
 }
 
-.item_image img {
+.item_image img,
+.list_image img {
   transition: all 0.5s;
   filter: grayscale(95%) contrast(80%);
 }
@@ -72,4 +75,39 @@
   margin-left: 5px;
   width: 22px;
   height: 22px;
+}
+
+/* LIST ITEM */
+
+.list {
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-bottom: 1px solid #808080;
+}
+
+.list_image {
+  min-width: 150px;
+  height: 150px;
+  position: relative;
+}
+
+.list_text {
+  margin: 0 1rem;
+  flex-grow: 1;
+}
+
+.list_text_title {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+.list_text_title:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.list_buttons {
+  display: flex;
+  flex-direction: column;
 }

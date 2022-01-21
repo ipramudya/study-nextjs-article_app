@@ -3,7 +3,7 @@ import axios from "axios";
 import Layout from "@/components/Layout";
 import Banner from "@/components/Banner";
 import Search from "@/components/Search";
-import GridItem from "@/components/Item";
+import GridItem from "@/components/GridItem";
 import styles from "@/styles/Home.module.css";
 import { API_URL } from "@/config/urls";
 

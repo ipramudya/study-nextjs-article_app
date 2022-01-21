@@ -70,7 +70,7 @@ export default function AddPage() {
 
   return (
     <Layout>
-      <h1 className={articleStyles.heading_title}>Add your own article {router.query.query}</h1>
+      <h1 className={articleStyles.heading_title}>Post your own article {router.query.query}</h1>
       <ToastContainer position="bottom-center" hideProgressBar={true} autoClose={3000} transition={Slide} />
       <div className={styles.form}>
         <Form
