@@ -1,6 +1,7 @@
+import Image from "next/image";
+import { useRouter } from "next/router";
 import axios from "axios";
 import moment from "moment";
-import Image from "next/image";
 import "react-toastify/dist/ReactToastify.css";
 
 import Layout from "@/components/Layout";
@@ -8,19 +9,21 @@ import { API_URL } from "@/config/urls";
 import styles from "@/styles/Article.module.css";
 
 export default function Article({ article }) {
+  const router = useRouter();
+
   return (
     <Layout>
       <div className={styles.article_heading}>
         <div className={styles.heading_group}>
           <span>posted at &ndash; {moment(article.publishedAt).format("LL")}</span>
           <span className={styles.heading_link}>
-            <a href={article.url} target="_blank" rel="noreferrer">
-              words by {article.author}
+            <a href={article.url ? article.url : router.asPath} target="_blank" rel="noreferrer">
+              words by {article.author ? article.author : "No Author"}
             </a>
           </span>
         </div>
-        <h1 className={styles.heading_title}>{article.title}</h1>
-        <p className={styles.heading_desc}>{article.description}</p>
+        <h1 className={styles.heading_title}>{article.title ? article.title : "No Title"}</h1>
+        <p className={styles.heading_desc}>{article.description ? article.description : "No Description written"}</p>
       </div>
       <div className={styles.article_image}>
         <Image
@@ -37,11 +40,15 @@ export default function Article({ article }) {
         />
       </div>
       <div className={styles.article_content}>
-        {article.content.split("\n").map((p) => (
-          <p key={p} className={styles.content_paragraph}>
-            {p}
-          </p>
-        ))}
+        {article.content ? (
+          article.content.split("\n").map((paragraph) => (
+            <p key={paragraph} className={styles.content_paragraph}>
+              {paragraph}
+            </p>
+          ))
+        ) : (
+          <p className={styles.content_paragraph}>Content is empty</p>
+        )}
       </div>
     </Layout>
   );

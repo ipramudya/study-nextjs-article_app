@@ -25,10 +25,12 @@ export default function ListItem({ article, handleEdit, handleRemove }) {
       <div className={styles.list_text}>
         <Link href={`/article/${article.id}`}>
           <h4 className={`${styles.desc_box_title} ${styles.list_text_title}`} style={{ margin: "0 0 8px 0" }}>
-            {article.title}
+            {article.title ? article.title : "No Title"}
           </h4>
         </Link>
-        <p className={styles.desc_box_subtitle}>{article.description}</p>
+        <p className={styles.desc_box_subtitle}>
+          {article.description ? article.description : "No Description written"}
+        </p>
       </div>
       <div className={styles.list_buttons}>
         <Button style={{ alignItems: "unset", color: " #570000" }} event={handleRemove}>
