@@ -21,50 +21,34 @@ export const AuthProvider = ({ children }) => {
     setError(null);
   };
 
-  //    Register user
-  const register = async (user) => {
-    try {
-      //  fetch next.js local api
-      const { data, status } = await axios.post(`${NEXT_URL}/api/register`, user);
-      //  response handler
-      if (status === 200) {
-        setUser(data.user);
-        router.push("/");
-      } else {
-        setError(data.message);
-        setError(null);
-        return;
-      }
-    } catch (error) {
-      const { data } = error.response;
-      setError(data.message);
-    }
-  };
-
-  //    Login user
+  /**  Login user  **/
   const login = async ({ email: identifier, password }) => {
-    try {
-      //  fetch next.js local api
-      const { data, status } = await axios.post(`${NEXT_URL}/api/login`, {
-        identifier,
-        password,
-      });
-      //  response handler
-      if (status === 200) {
-        setUser(data.user);
-        router.push("/");
-      } else {
-        setError(data.message);
-        setError(null);
-        return;
-      }
-    } catch (error) {
-      const { data } = error.response;
-      setError(data.message);
+    /* Fetch next local API */
+    const res = await fetch(`${NEXT_URL}/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ identifier, password }),
+    });
+
+    /* Extract json data */
+    const nextData = await res.json();
+
+    // Everything goes OK
+    if (res.ok) {
+      setUser(nextData.user);
+      router.push("/");
+    }
+    // Handle next.js error response
+    else {
+      setError(nextData.message);
+      setError(null);
+      return;
     }
   };
 
-  //    Logout user
+  /**  Logout user  **/
   const logout = async () => {
     const { statusText } = await axios.post(`${NEXT_URL}/api/logout`);
     if (statusText === "OK") {
@@ -73,16 +57,49 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  //    Check if user is logged in
+  /**  Register user  **/
+  const register = async (user) => {
+    console.log(user.email);
+
+    /* Fetch next local API */
+    const res = await fetch(`${NEXT_URL}/api/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    /* Extract json data */
+    const nextData = await res.json();
+
+    // Everything goes OK
+    if (res.ok) {
+      setUser(nextData.user);
+      router.push("/account/dashboard");
+    }
+    // Handle next.js error response
+    else {
+      setError(nextData.message);
+      setError(null);
+      return;
+    }
+  };
+
+  /**  Check if user is logged in  **/
   const checkUserLoggedIn = async () => {
-    try {
-      const { data, statusText } = await axios.get(`${NEXT_URL}/api/user`);
-      if (statusText === "OK") {
-        setUser(data.user);
-      } else {
-        setUser(null);
-      }
-    } catch (error) {
+    /* Fetch next local API */
+    const res = await fetch(`${NEXT_URL}/api/user`);
+
+    /* Extract json data */
+    const nextData = await res.json();
+
+    // Everything goes OK
+    if (res.ok) {
+      setUser(nextData);
+    }
+    // Handle next.js error response
+    else {
       setUser(null);
     }
   };

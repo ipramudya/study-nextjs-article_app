@@ -1,10 +1,11 @@
-import axios from "axios";
 import cookie from "cookie";
-import { API_URL } from "@/config/urls";
 
 export default async function (req, res) {
-  if (req.method === "POST") {
-    //   destroy cookie
+  const METHOD = "POST";
+
+  //  Handle only POST request
+  if (req.method === METHOD) {
+    /* Destroy cookie */
     res.setHeader(
       "Set-Cookie",
       cookie.serialize("token", "", {
@@ -14,8 +15,12 @@ export default async function (req, res) {
         path: "/",
       })
     );
+
+    /* Send response */
     res.status(200).json({ message: "Success" });
-  } else {
+  }
+  //  Handle other request
+  else {
     res.setHeader("Allow", ["POST"]);
     res.status(405).json({ message: `Method ${req.method} not allowed` });
   }

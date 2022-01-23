@@ -30,6 +30,7 @@ export default function LoginPage() {
       toast.error("Password doesn't match", { theme: "dark" });
       return;
     }
+
     register({ username, email, password });
   };
 

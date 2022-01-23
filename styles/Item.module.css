@@ -15,7 +15,7 @@
 
 .item:hover .item_image img,
 .list:hover .list_image img {
-  transform: scale(1.05);
+  transform: scale(1.015);
   filter: unset;
 }
 
