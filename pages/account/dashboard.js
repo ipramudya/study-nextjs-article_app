@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import axios from "axios";
-import QueryString from "qs";
 import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -10,21 +9,31 @@ import articleStyles from "@/styles/Article.module.css";
 import Layout from "@/components/Layout";
 import ListItem from "@/components/ListItem";
 
-export default function DashboardPage({ articles }) {
-  console.log(articles);
+export default function DashboardPage({ articles, token }) {
   const router = useRouter();
 
+  /**  Edit handler  **/
   const handleEdit = (id) => {
     router.push(`/edit/${id}`);
   };
 
+  /**  Remove handler  **/
   const handleRemove = async (id) => {
-    const { status } = await axios.delete(`${API_URL}/api/articles/${id}`);
+    /* Fetch strapi API */
+    const res = await fetch(`${API_URL}/articles/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    if (status !== 200) {
+    /* Handle strapi error  */
+    if (res.status !== 200) {
       toast.error("Error, please try again", { theme: "dark" });
+      return;
     }
 
+    /* Result */
     toast.success("Article successfully removed", {
       theme: "dark",
       onClose: () => router.push("/"),
@@ -51,17 +60,6 @@ export default function DashboardPage({ articles }) {
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookie(req);
-  const query = QueryString.stringify(
-    {
-      fields: ["title", "description"],
-      populate: {
-        image: {
-          fields: ["formats"],
-        },
-      },
-    },
-    { encodeValuesOnly: true }
-  );
 
   const { data: articles } = await axios.get(`${API_URL}/articles/me`, {
     headers: {
@@ -72,6 +70,7 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       articles,
+      token,
     },
   };
 }

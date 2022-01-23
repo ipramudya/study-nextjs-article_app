@@ -62,12 +62,13 @@ export default function EditPage({ article, token }) {
       body: JSON.stringify({ ...others, publishedTime }),
     });
 
-    /* Result */
+    /* Handle strapi error  */
     if (res.status !== 200) {
       toast.error("Error, please try again", { theme: "dark" });
       return;
     }
 
+    /* Result */
     toast.success("Article successfully edited", {
       theme: "dark",
       onClose: () => router.push(`/article/${article.id}`),
