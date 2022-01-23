@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AiOutlineGithub } from "react-icons/ai";
 import { useAuth } from "@/context/AuthContext";
 import styles from "@/styles/Nav.module.css";
 
@@ -44,6 +45,15 @@ export default function Nav() {
               </li>
             </>
           )}
+          <a
+            href="https://github.com/ipramudya/study-nextjs-article_app"
+            target="_blank"
+            rel="noreferrer"
+            className={styles.version}
+          >
+            <AiOutlineGithub />
+            <span>V1.0.0</span>
+          </a>
         </ul>
       </div>
     </nav>

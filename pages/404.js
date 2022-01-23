@@ -5,7 +5,7 @@ import styles from "@/styles/404.module.css";
 
 export default function NotFound() {
   return (
-    <Layout>
+    <Layout title="Page not found" style={{ padding: "unset" }}>
       <div className={styles.error}>
         <h3 className={styles.error_message}>You&#39;ve found a page that doesn&#39;t exist </h3>
         <p className={styles.error_desc}>

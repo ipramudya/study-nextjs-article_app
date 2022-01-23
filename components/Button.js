@@ -1,6 +1,6 @@
 import styles from "@/styles/Button.module.css";
 
-export default function Button({ event, buttonType = "button", children, fill, onPending = false, style }) {
+export default function Button({ event, buttonType, children, fill, onPending, style }) {
   return (
     <>
       {onPending ? (
@@ -15,3 +15,8 @@ export default function Button({ event, buttonType = "button", children, fill, o
     </>
   );
 }
+
+Button.defaultProps = {
+  buttonType: "button",
+  onPending: false,
+};

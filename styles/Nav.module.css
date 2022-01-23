@@ -50,3 +50,19 @@
   color: #292c30;
   font-family: Aileron, sans-serif;
 }
+
+.version {
+  display: flex;
+  align-items: center;
+  margin-top: calc(2rem - 8px);
+}
+.version:hover {
+  opacity: 0.75;
+}
+.version > svg {
+  font-size: 1.3rem;
+}
+.version > span {
+  font-size: 0.8rem;
+  margin-left: 5px;
+}

@@ -3,7 +3,7 @@ import Head from "next/head";
 import Nav from "./Nav";
 import styles from "@/styles/Layout.module.css";
 
-export default function Layout({ children, title, description }) {
+export default function Layout({ children, title, description, style }) {
   return (
     <>
       <Head>
@@ -17,7 +17,9 @@ export default function Layout({ children, title, description }) {
       </Head>
       <div className={styles.main}>
         <Nav />
-        <div className={styles.content}>{children}</div>
+        <div className={styles.content} style={style}>
+          {children}
+        </div>
       </div>
     </>
   );
