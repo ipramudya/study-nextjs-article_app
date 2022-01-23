@@ -7,6 +7,7 @@ import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { parseCookie } from "@/helpers/parseCookies";
 import { API_URL } from "@/config/urls";
 import Layout from "@/components/Layout";
 import Form from "@/components/Form";
@@ -15,11 +16,12 @@ import ImageUpload from "@/components/ImageUpload";
 import articleStyles from "@/styles/Article.module.css";
 import formStyles from "@/styles/Form.module.css";
 
-export default function EditPage({ article }) {
-  const { title, author, url, description, content, publishedTime } = article.attributes;
-  const { data: image } = article.attributes.image;
-  const date = moment(publishedTime).format("YYYY-MM-DD");
-  const time = moment(publishedTime).format("HH:mm");
+export default function EditPage({ article, token }) {
+  const { image, title, author, url, description, content } = article;
+
+  /**  Formatting Date  **/
+  const date = moment(article.publishedTime).format("YYYY-MM-DD");
+  const time = moment(article.publishedTime).format("HH:mm");
   const [values, setValues] = useState({
     title,
     author,
@@ -29,45 +31,61 @@ export default function EditPage({ article }) {
     description,
     content,
   });
-  const [imageUrl, setImageUrl] = useState(image ? image.attributes.formats.medium.url : "");
+
+  /**  Initializing hooks  **/
+  const [imageUrl, setImageUrl] = useState(image ? image.formats.medium.url : "");
   const [isModalShown, setIsModalShown] = useState(false);
   const router = useRouter();
 
+  /**  Submit handler  **/
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Validate
+
+    /* Validate */
     const isFieldsEmpty = Object.values(values).some((element) => element === "");
     if (isFieldsEmpty) {
       toast.error("Please fill in all fields", { theme: "dark" });
       return;
     }
-    // Spliting data to parse date
+
+    /* Spliting data to parse date */
     const { date, time, ...others } = values;
     const publishedTime = moment(`${date} ${time}`).format();
-    // Api call
-    const { status, data } = await axios.put(`${API_URL}/api/articles/${article.id}`, {
-      data: {
-        ...others,
-        publishedTime,
+
+    /* Fetch strapi API */
+    const res = await fetch(`${API_URL}/articles/${article.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ ...others, publishedTime }),
     });
-    // Result
-    if (status !== 200) toast.error("Error, please try again", { theme: "dark" });
+
+    /* Result */
+    if (res.status !== 200) {
+      toast.error("Error, please try again", { theme: "dark" });
+      return;
+    }
+
     toast.success("Article successfully edited", {
       theme: "dark",
       onClose: () => router.push(`/article/${article.id}`),
     });
   };
 
+  /**  Input change handler  **/
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    // Set state
+
+    /* Set state */
     setValues((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
+  /**  Input image change handler  **/
   const handleImageChange = (newUploadedImage) => {
     setImageUrl(newUploadedImage.formats.medium.url);
     setIsModalShown(false);
@@ -103,19 +121,18 @@ export default function EditPage({ article }) {
         </div>
         <Form buttonMessage="Edit" values={values} handleInputChange={handleInputChange} handleSubmit={handleSubmit} />
         <Modal show={isModalShown} onClose={() => setIsModalShown(false)}>
-          <ImageUpload articleId={article.id} onImageUploaded={handleImageChange} />
+          <ImageUpload articleId={article.id} onImageUploaded={handleImageChange} token={token} />
         </Modal>
       </Layout>
     </>
   );
 }
 
-export async function getServerSideProps({ params: { id } }, req) {
-  const {
-    data: { data: article },
-  } = await axios.get(`${API_URL}/api/articles/${id}?populate=image`);
+export async function getServerSideProps({ params: { id }, req }) {
+  const { token } = parseCookie(req);
+  const { data: article } = await axios.get(`${API_URL}/articles/${id}`);
 
   return {
-    props: { article },
+    props: { article, token },
   };
 }

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -7,22 +6,30 @@ import Button from "./Button";
 import styles from "@/styles/Form.module.css";
 import { API_URL } from "@/config/urls";
 
-export default function ImageUpload({ articleId, onImageUploaded }) {
+export default function ImageUpload({ articleId, onImageUploaded, token }) {
   const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    // Append data to the form
+
+    /* Append data to the form */
     const formData = new FormData();
     formData.append("files", imageUrl);
-    formData.append("ref", "api::article.article");
+    formData.append("ref", "article");
     formData.append("refId", articleId);
     formData.append("field", "image");
-    // Comunicate to API
-    const { data, status } = await toast.promise(
-      axios.post(`${API_URL}/api/upload`, formData),
+
+    /* Fetch strapi API */
+    const res = await toast.promise(
+      fetch(`${API_URL}/upload`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }),
       {
         pending: "Updating image, please wait...",
         success: "Image has been changed",
@@ -31,10 +38,15 @@ export default function ImageUpload({ articleId, onImageUploaded }) {
       { theme: "dark" }
     );
     setIsLoading(false);
-    // Result
-    if (status !== 200) {
+
+    /* Handle strapi error  */
+    if (res.status !== 200) {
       toast.error("Something went wrong", { theme: "dark" });
+      return;
     }
+
+    /* Result */
+    const data = await res.json();
     onImageUploaded(data[0]);
   };
 

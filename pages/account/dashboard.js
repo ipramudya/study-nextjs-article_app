@@ -11,6 +11,7 @@ import Layout from "@/components/Layout";
 import ListItem from "@/components/ListItem";
 
 export default function DashboardPage({ articles }) {
+  console.log(articles);
   const router = useRouter();
 
   const handleEdit = (id) => {
@@ -36,11 +37,11 @@ export default function DashboardPage({ articles }) {
       <h1 className={articleStyles.heading_title} style={{ marginBottom: "2rem" }}>
         Your Article
       </h1>
-      {articles.data.map((article) => (
+      {articles.map((article) => (
         <ListItem
           key={article.id}
-          article={article.attributes}
-          handleEdit={() => handleEdit(article.id)}
+          article={article}
+          handleEdit={handleEdit}
           handleRemove={() => handleRemove(article.id)}
         />
       ))}
@@ -62,7 +63,7 @@ export async function getServerSideProps({ req }) {
     { encodeValuesOnly: true }
   );
 
-  const { data: articles } = await axios.get(`${API_URL}/api/article/me?${query}`, {
+  const { data: articles } = await axios.get(`${API_URL}/articles/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

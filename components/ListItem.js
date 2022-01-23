@@ -6,14 +6,13 @@ import Button from "./Button";
 import styles from "@/styles/Item.module.css";
 
 export default function ListItem({ article, handleEdit, handleRemove }) {
-  console.log(article);
   return (
     <div className={styles.list}>
       <div className={styles.list_image}>
         <Image
           src={
-            article.image.data
-              ? article.image.data.attributes.formats.small.url
+            article.image
+              ? article.image.formats.small.url
               : "https://res.cloudinary.com/pramudya-dev/image/upload/v1642248135/small_default_image_caa84f22a0.jpg"
           }
           alt="image"
@@ -35,7 +34,7 @@ export default function ListItem({ article, handleEdit, handleRemove }) {
         <Button style={{ alignItems: "unset", color: " #570000" }} event={handleRemove}>
           <AiOutlineClose />
         </Button>
-        <Button style={{ alignItems: "unset", color: "#004b70" }} event={handleEdit}>
+        <Button style={{ alignItems: "unset", color: "#004b70" }} event={() => handleEdit(article.id)}>
           <AiOutlineEdit />
         </Button>
       </div>
