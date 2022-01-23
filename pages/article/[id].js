@@ -12,21 +12,21 @@ export default function Article({ article }) {
     <Layout>
       <div className={styles.article_heading}>
         <div className={styles.heading_group}>
-          <span>posted at &ndash; {moment(article.attributes.publishedAt).format("LL")}</span>
+          <span>posted at &ndash; {moment(article.publishedAt).format("LL")}</span>
           <span className={styles.heading_link}>
-            <a href={article.attributes.url} target="_blank" rel="noreferrer">
-              words by {article.attributes.author}
+            <a href={article.url} target="_blank" rel="noreferrer">
+              words by {article.author}
             </a>
           </span>
         </div>
-        <h1 className={styles.heading_title}>{article.attributes.title}</h1>
-        <p className={styles.heading_desc}>{article.attributes.description}</p>
+        <h1 className={styles.heading_title}>{article.title}</h1>
+        <p className={styles.heading_desc}>{article.description}</p>
       </div>
       <div className={styles.article_image}>
         <Image
           src={
-            article.attributes.image.data !== null
-              ? article.attributes.image.data.attributes.formats.large.url
+            article.image.data !== null
+              ? article.image.formats.large.url
               : "https://res.cloudinary.com/pramudya-dev/image/upload/v1641964049/large_default_image_aa09a36476.jpg"
           }
           alt="image"
@@ -37,7 +37,7 @@ export default function Article({ article }) {
         />
       </div>
       <div className={styles.article_content}>
-        {article.attributes.content.split("\n").map((p) => (
+        {article.content.split("\n").map((p) => (
           <p key={p} className={styles.content_paragraph}>
             {p}
           </p>
@@ -48,17 +48,17 @@ export default function Article({ article }) {
 }
 
 export async function getStaticProps({ params: { id } }) {
-  const { data: article } = await axios.get(`${API_URL}/api/articles/${id}?populate=image`);
+  const { data: article } = await axios.get(`${API_URL}/articles/${id}`);
   return {
-    props: { article: article.data },
+    props: { article },
     revalidate: 1,
   };
 }
 
 export async function getStaticPaths() {
-  const { data: articles } = await axios.get(`${API_URL}/api/articles`);
+  const { data: articles } = await axios.get(`${API_URL}/articles`);
 
-  const paths = articles.data.map((article) => ({
+  const paths = articles.map((article) => ({
     params: { id: article.id.toString() },
   }));
 

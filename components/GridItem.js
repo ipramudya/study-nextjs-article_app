@@ -9,7 +9,7 @@ export default function Item({ imageSource, title, description }) {
         <Image
           src={
             imageSource
-              ? imageSource.attributes.formats.medium.url
+              ? imageSource.formats.medium.url
               : "https://res.cloudinary.com/pramudya-dev/image/upload/v1641964051/medium_default_image_aa09a36476.jpg"
           }
           alt="image"

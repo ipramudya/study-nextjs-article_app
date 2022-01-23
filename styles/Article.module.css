@@ -45,7 +45,7 @@
 .article_image img {
   transition: all 0.5s;
   filter: grayscale(95%) contrast(80%);
-  object-position: top;
+  object-position: center;
 }
 
 .article_content {

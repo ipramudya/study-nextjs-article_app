@@ -36,13 +36,12 @@ export default function DashboardPage({ articles }) {
       <h1 className={articleStyles.heading_title} style={{ marginBottom: "2rem" }}>
         Your Article
       </h1>
-      {articles.results.map((article) => (
+      {articles.data.map((article) => (
         <ListItem
           key={article.id}
-          article={article}
+          article={article.attributes}
           handleEdit={() => handleEdit(article.id)}
           handleRemove={() => handleRemove(article.id)}
-          router={router}
         />
       ))}
     </Layout>
@@ -59,7 +58,6 @@ export async function getServerSideProps({ req }) {
           fields: ["formats"],
         },
       },
-      sort: ["publishedAt:asc"],
     },
     { encodeValuesOnly: true }
   );

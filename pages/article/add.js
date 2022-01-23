@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import moment from "moment";
 import axios from "axios";
 import { MdDone } from "react-icons/md";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { parseCookie } from "@/helpers/parseCookies";
 import { API_URL } from "@/config/urls";
 import Layout from "@/components/Layout";
 import Button from "@/components/Button";
 import CustomInput from "@/components/Input";
 import styles from "@/styles/Form.module.css";
 import articleStyles from "@/styles/Article.module.css";
-import moment from "moment";
 import Form from "@/components/Form";
 
 const initialState = {
@@ -25,7 +26,7 @@ const initialState = {
   content: "",
 };
 
-export default function AddPage() {
+export default function AddPage({ token }) {
   const [values, setValues] = useState(initialState);
   const router = useRouter();
 
@@ -44,19 +45,36 @@ export default function AddPage() {
     const publishedTime = moment(`${date} ${time}`).format();
 
     // Api call
-    const { status, data } = await axios.post(`${API_URL}/api/articles`, {
-      data: {
-        ...others,
-        publishedTime,
-      },
-    });
-
-    if (status !== 200) toast.error("Error, please try again", { theme: "dark" });
-
-    toast.success("Article successfully added", {
-      theme: "dark",
-      onClose: () => router.push(`/article/${data.data.id}`),
-    });
+    try {
+      const { data } = await axios.post(
+        `${API_URL}/api/articles`,
+        {
+          data: {
+            ...others,
+            publishedTime,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      //  success
+      toast.success("Article successfully added", {
+        theme: "dark",
+        onClose: () => router.push(`/article/${data.data.id}`),
+      });
+    } catch (error) {
+      //  error handling
+      const { status } = error.response.data.error;
+      if (status !== 200) {
+        if (status === 402 || status === 401) {
+          return toast.error("Forbidden, no token included", { theme: "dark" });
+        }
+        toast.error("Error, please try again", { theme: "dark" });
+      }
+    }
   };
 
   const handleInputChange = (event) => {
@@ -82,4 +100,14 @@ export default function AddPage() {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookie(req);
+
+  return {
+    props: {
+      token,
+    },
+  };
 }

@@ -18,11 +18,7 @@ export default function SearchPage({ articles }) {
           {articles.map((article) => (
             <Link href={`/article/${article.id}`} key={article.id} passHref>
               <div className={homeStyles.grid_item}>
-                <GridItem
-                  imageSource={article.attributes.image.data}
-                  title={article.attributes.title}
-                  description={article.attributes.description}
-                />
+                <GridItem imageSource={article.image} title={article.title} description={article.description} />
               </div>
             </Link>
           ))}
@@ -35,39 +31,13 @@ export default function SearchPage({ articles }) {
 }
 
 export async function getServerSideProps({ query: { query } }) {
-  const queryString = qs.stringify(
-    {
-      filters: {
-        $or: [
-          {
-            title: {
-              $contains: query,
-            },
-          },
-          {
-            description: {
-              $contains: query,
-            },
-          },
-          {
-            author: {
-              $contains: query,
-            },
-          },
-          {
-            publishedAt: {
-              $contains: query,
-            },
-          },
-        ],
-      },
+  const queryString = qs.stringify({
+    _where: {
+      _or: [{ title_contains: query }, { description_contains: query }, { author_contains: query }],
     },
-    { encodeValuesOnly: true }
-  );
+  });
 
-  const {
-    data: { data: articles },
-  } = await axios.get(`${API_URL}/api/articles?${queryString}&populate=image`);
+  const { data: articles } = await axios.get(`${API_URL}/articles?${queryString}`);
 
   return {
     props: { articles },

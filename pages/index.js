@@ -1,5 +1,6 @@
 import Link from "next/link";
 import axios from "axios";
+import QueryString from "qs";
 import Layout from "@/components/Layout";
 import Banner from "@/components/Banner";
 import Search from "@/components/Search";
@@ -17,11 +18,7 @@ export default function Home({ articles }) {
           {articles.map((article) => (
             <Link href={`/article/${article.id}`} key={article.id} passHref>
               <div className={styles.grid_item}>
-                <GridItem
-                  imageSource={article.attributes.image.data}
-                  title={article.attributes.title}
-                  description={article.attributes.description}
-                />
+                <GridItem imageSource={article.image} title={article.title} description={article.description} />
               </div>
             </Link>
           ))}
@@ -32,10 +29,12 @@ export default function Home({ articles }) {
 }
 
 export async function getStaticProps() {
-  const { data: articles } = await axios.get(`${API_URL}/api/articles?populate=image&sort[0]=publishedAt:ASC`);
+  const { data: articles } = await axios.get(`${API_URL}/articles`);
 
   return {
-    props: { articles: articles.data },
+    props: {
+      articles,
+    },
     revalidate: 1,
   };
 }
