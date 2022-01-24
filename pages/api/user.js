@@ -1,4 +1,3 @@
-import axios from "axios";
 import cookie from "cookie";
 import { API_URL } from "@/config/urls";
 

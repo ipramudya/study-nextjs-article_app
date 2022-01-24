@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   // force run whenever app has cookie
-  useEffect(() => checkUserLoggedIn(), [user]);
+  useEffect(() => checkUserLoggedIn(), []);
 
   const resetError = () => {
     setError(null);
