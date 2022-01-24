@@ -1,6 +1,5 @@
 import Link from "next/link";
 import axios from "axios";
-import QueryString from "qs";
 import Layout from "@/components/Layout";
 import Banner from "@/components/Banner";
 import Search from "@/components/Search";

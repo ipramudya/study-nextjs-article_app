@@ -1,6 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { NEXT_URL } from "@/config/urls";
 
 const AuthContext = createContext(null);
@@ -13,9 +12,7 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
 
   // force run whenever app has cookie
-  useEffect(() => {
-    checkUserLoggedIn();
-  }, []);
+  useEffect(() => checkUserLoggedIn(), [user]);
 
   const resetError = () => {
     setError(null);
@@ -44,14 +41,16 @@ export const AuthProvider = ({ children }) => {
     else {
       setError(nextData.message);
       setError(null);
-      return;
     }
   };
 
   /**  Logout user  **/
   const logout = async () => {
-    const { statusText } = await axios.post(`${NEXT_URL}/api/logout`);
-    if (statusText === "OK") {
+    const res = await fetch(`${NEXT_URL}/api/logout`, {
+      method: "POST",
+    });
+
+    if (res.ok) {
       setUser(null);
       router.push("/");
     }

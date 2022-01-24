@@ -9,6 +9,7 @@ export default async function (req, res) {
     //   check if cookie exist
     if (!req.headers.cookie) {
       res.status(403).json({ message: "Not Allowed" });
+      return;
     }
     /* Parse cookie */
     const { token } = cookie.parse(req.headers.cookie);

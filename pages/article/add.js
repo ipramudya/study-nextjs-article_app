@@ -1,17 +1,13 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import moment from "moment";
 import axios from "axios";
-import { MdDone } from "react-icons/md";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { parseCookie } from "@/helpers/parseCookies";
 import { API_URL } from "@/config/urls";
 import Layout from "@/components/Layout";
-import Button from "@/components/Button";
-import CustomInput from "@/components/Input";
 import styles from "@/styles/Form.module.css";
 import articleStyles from "@/styles/Article.module.css";
 import Form from "@/components/Form";

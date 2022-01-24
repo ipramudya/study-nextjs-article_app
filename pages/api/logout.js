@@ -11,6 +11,7 @@ export default async function (req, res) {
       cookie.serialize("token", "", {
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
+        sameSite: "strict",
         expires: new Date(0),
         path: "/",
       })
